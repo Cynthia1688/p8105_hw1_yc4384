@@ -1,0 +1,65 @@
+---
+title: "p8105_hw1_yc4384"
+author: "Yangyang Chen"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Problem_1
+
+```{r}
+#Introduce the dataset
+library(moderndive)
+data("early_january_weather") #load dataset
+str(early_january_weather) #the variables in this dataset, including names / values of important variables
+nrow(early_january_weather) #the size of the dataset
+ncol(early_january_weather) # the size of the dataset
+attach(early_january_weather) #Make a scatterplot of temp (y) vs time_hour (x)
+mean(temp)#The mean
+cat("There are 15 variables in the dataset. The variable 'origin' is an character type variable, and variable 'wind_gust' includes all NA values.")
+cat("The dataset has 358 rows and 15 columns.")
+cat("The mean of 'temp' is 39.58212.")
+
+#Scatterplot of dataset and save image
+library(ggplot2)
+scatter_plot = ggplot(early_january_weather, aes(x = time_hour, y= temp, color = 'humid')) #color points using the humid variable
+scatter_plot + geom_point()
+cat("The temperature is fluctuated increasing from 30 to 50 on Jan_01 to Jan_15.")
+ggsave("scatterplot.png", plot = scatter_plot, width = 6, height = 4) #Export scatterplot to your project directory
+```
+
+## Problem_2
+```{r}
+#Create a dataset
+v1 = rnorm(10) #a random sample of size 10 from a standard Normal distribution
+v2 = ifelse(v1>0, "T", "F") #a logical vector indicating whether elements of the sample are greater than 0
+v3 = c('a','b','c','d','e','f','g','h','i','j') #a character vector of length 10
+v4 = c('1','2','3','3','2','1','2','3','1','3') #a factor vector of length 10, with 3 different factor “levels”
+df = data.frame(v1,v2,v3,v4) #create a data frame
+df
+
+#Mean of each vector
+library(tidyverse)# Use pull() to extract the each column as a vector
+vector <- df %>% pull(v1)
+mean(vector)
+vector <- df %>% pull(v2)
+mean(vector)
+vector <- df %>% pull(v3)
+mean(vector)
+vector <- df %>% pull(v4)
+mean(vector)
+
+# Convert variables from one type to another and calculate their means
+vector <- df %>% pull(v2)
+mean(as.numeric(vector))
+vector <- df %>% pull(v3)
+mean(as.numeric(vector))
+vector <- df %>% pull(v4)
+mean(as.numeric(vector))
+print("Because v2 and v3 still are NA values after coercion, therefore they don't have mean values.")
+```
+
