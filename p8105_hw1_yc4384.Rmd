@@ -29,7 +29,7 @@ library(ggplot2)
 scatter_plot = ggplot(early_january_weather, aes(x = time_hour, y= temp, color = 'humid')) #color points using the humid variable
 scatter_plot + geom_point()
 cat("The temperature is fluctuated increasing from 30 to 50 on Jan_01 to Jan_15.")
-ggsave("scatterplot.png", plot = scatter_plot, width = 6, height = 4) #Export scatterplot to your project directory
+ggsave("scatterplot.png", plot = scatter_plot + geom_point(), width = 6, height = 4) #Export scatterplot to the project directory
 ```
 
 ## Problem_2
