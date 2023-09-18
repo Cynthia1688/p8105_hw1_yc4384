@@ -11,26 +11,32 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Problem_1
 
-```{r}
+
 #Introduce the dataset
+
+```{r}
 library(moderndive)
 data("early_january_weather") #load dataset
-str(early_january_weather) #the variables in this dataset, including names / values of important variables
-nrow(early_january_weather) #the size of the dataset
-ncol(early_january_weather) # the size of the dataset
-attach(early_january_weather) #Make a scatterplot of temp (y) vs time_hour (x)
-mean(temp)#The mean
-cat("There are 15 variables in the dataset. The variable 'origin' is an character type variable, and variable 'wind_gust' includes all NA values.")
-cat("The dataset has 358 rows and 15 columns.")
-cat("The mean of 'temp' is 39.58212.")
+summary(early_january_weather) #the variables in this dataset, including names / values of important variables
+```
 
+* There are `r ncol(early_january_weather)` variables in the dataset. The variable 'origin' is an character type variable, and variable 'wind_gust' includes all NA values.
+* The dataset has `r nrow(early_january_weather)` rows and `r ncol(early_january_weather)` columns.
+* The mean of 'temp' is `r round(mean(early_january_weather$temp),2)`.
+
+```{r}
 #Scatterplot of dataset and save image
 library(ggplot2)
-scatter_plot = ggplot(early_january_weather, aes(x = time_hour, y= temp, color = 'humid')) #color points using the humid variable
+scatter_plot = ggplot(early_january_weather, aes(x = time_hour, y= temp, color = humid)) #color points using the humid variable
 scatter_plot + geom_point()
-cat("The temperature is fluctuated increasing from 30 to 50 on Jan_01 to Jan_15.")
+```
+
+* The temperature is non-stationary, and it is periodically fluctuated increasing from Jan_01 to Jan_15.
+
+```{r}
 ggsave("scatterplot.png", plot = scatter_plot + geom_point(), width = 6, height = 4) #Export scatterplot to the project directory
 ```
+
 
 ## Problem_2
 ```{r}
@@ -38,7 +44,7 @@ ggsave("scatterplot.png", plot = scatter_plot + geom_point(), width = 6, height 
 v1 = rnorm(10) #a random sample of size 10 from a standard Normal distribution
 v2 = ifelse(v1>0, "T", "F") #a logical vector indicating whether elements of the sample are greater than 0
 v3 = c('a','b','c','d','e','f','g','h','i','j') #a character vector of length 10
-v4 = c('1','2','3','3','2','1','2','3','1','3') #a factor vector of length 10, with 3 different factor “levels”
+v4 = as.factor(c(1,2,3,3,2,1,2,3,1,3)) #a factor vector of length 10, with 3 different factor “levels”
 df = data.frame(v1,v2,v3,v4) #create a data frame
 df
 
@@ -55,11 +61,12 @@ mean(vector)
 
 # Convert variables from one type to another and calculate their means
 vector <- df %>% pull(v2)
-mean(as.numeric(vector))
+mean(as.numeric(as.factor(vector)))
 vector <- df %>% pull(v3)
-mean(as.numeric(vector))
+mean(as.numeric(as.factor(vector)))
 vector <- df %>% pull(v4)
 mean(as.numeric(vector))
-print("Because v2 and v3 still are NA values after coercion, therefore they don't have mean values.")
+
 ```
+* Since v2 and v3 are converted to numeric values. their means can be computed.
 
